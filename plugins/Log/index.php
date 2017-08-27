@@ -10,6 +10,7 @@ namespace Log;
 
 use Mysqli;
 use Lychee\Modules\Database;
+use Lychee\Modules\Session;
 use Lychee\Modules\Settings;
 
 $lychee = __DIR__ . '/../../';
@@ -28,8 +29,7 @@ if (!file_exists(LYCHEE_CONFIG_FILE)) exit('Error 001: Configuration not found. 
 require(LYCHEE_CONFIG_FILE);
 
 // Ensure that user is logged in
-if ((isset($_SESSION['login'])&&$_SESSION['login']===true)&&
-	(isset($_SESSION['identifier'])&&$_SESSION['identifier']===Settings::get()['identifier'])) {
+if (Session::isLoggedIn()) {
 
 	// Result
 	$query  = Database::prepare(Database::get(), "SELECT FROM_UNIXTIME(time), type, function, line, text FROM ?", array(LYCHEE_TABLE_LOG));

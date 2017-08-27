@@ -132,6 +132,20 @@ final class Session {
 
 	}
 
+	/**
+	 * Checks if the current user is logged in
+	 * @return boolean Returns true if the user is successfully logged in
+	 */
+	public static function isLoggedIn() {
+		$settings = Settings::get();
+		if (isset($settings['proxyAuthUser']) && strlen($settings['proxyAuthUser']) > 0) {
+			$username = $_SERVER['HTTP_' . strtoupper(str_replace('-', '_', $settings['proxyAuthUser']))];
+			return strlen($username) > 0;
+		}
+		return (isset($_SESSION['login']) && $_SESSION['login'] === true) &&
+			(isset($_SESSION['identifier']) && $_SESSION['identifier'] === Settings::get()['identifier']);
+    }
+
 }
 
 ?>

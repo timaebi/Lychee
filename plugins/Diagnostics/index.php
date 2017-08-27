@@ -10,6 +10,7 @@ namespace Diagnostics;
 
 use Mysqli;
 use Imagick;
+use Lychee\Modules\Session;
 use Lychee\Modules\Settings;
 
 $lychee = __DIR__ . '/../../';
@@ -112,8 +113,7 @@ echo(PHP_EOL . PHP_EOL . 'System Information' . PHP_EOL);
 echo('------------------' . PHP_EOL);
 
 // Ensure that user is logged in
-if ((isset($_SESSION['login'])&&$_SESSION['login']===true)&&
-	(isset($_SESSION['identifier'])&&$_SESSION['identifier']===$settings['identifier'])) {
+if (Session::isLoggedIn()) {
 
 	// Load json
 	$json = file_get_contents(LYCHEE_SRC . 'package.json');
